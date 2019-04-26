@@ -11,6 +11,16 @@ pipeline {
                 skaffoldBuild()
             }
         }
+        stage('Deploy to Local Context') {
+            steps {
+                deployLocalContext()
+            }
+        }
+        stage('Functional Test') {
+            steps {
+                functionalTest()
+            }
+        }
     }
 }
 
@@ -25,8 +35,18 @@ def skaffoldBuild() {
     }
 }
 
+def deployLocalContext(){
+    container('jx-base'){
+       docker.withRegistry("https://${DOCKER_REGISTRY}", 'artifactory-credentials') {
+        sh "skaffold deploy"
+       }
+    }
+}
+
 def functionalTest(){
     container('maven') {
-        sh "cd functional-tests && mvn clean test -DappUrl=${APP_URL}"
+        sh 'kubectl port-forward $(kubectl get pods | grep "knowledge-share-app" | cut -d " " -f1 | head -n1) 8080:8080 &'
+        sh 'cd functional-tests && mvn clean test -DappUrl=http://localhost:8080'
+        sh 'pkill -f "port-forward knowledge-share-app"'
     }
 }
