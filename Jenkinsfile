@@ -37,9 +37,7 @@ def skaffoldBuild() {
 
 def deployLocalContext(){
     container('jx-base'){
-       docker.withRegistry("https://${DOCKER_REGISTRY}", 'artifactory-credentials') {
         sh "skaffold run"
-       }
     }
 }
 
