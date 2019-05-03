@@ -55,7 +55,7 @@ pipeline {
               sendBuildEvent(eventType:'deploy')
             }
         }
-        stage ('Monitor Prod Deployment') {
+        stage ('Monitor Production ') {
             steps {
               sleep 10 
               sendBuildEvent(eventType:'test')
