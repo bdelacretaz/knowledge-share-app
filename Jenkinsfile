@@ -39,25 +39,25 @@ pipeline {
         }
         stage ('Deploy to Staging') {
             steps {
-              echo 'Need to add deploy to stagin env here'
+              sleep 10 
               sendBuildEvent(eventType:'deploy')
             }
         }
         stage ('Test Staging Deployment') {
             steps {
-              echo 'Temp testing stage here'
+              sleep 10 
               sendBuildEvent(eventType:'test')
             }
         }
         stage ('Deploy to Production') {
             steps {
-              echo 'Need to add deploy to production env here'
+              sleep 10 
               sendBuildEvent(eventType:'deploy')
             }
         }
-        stage ('Test Prod Deployment') {
+        stage ('Monitor Prod Deployment') {
             steps {
-              echo 'Temp testing stage here'
+              sleep 10 
               sendBuildEvent(eventType:'test')
             }
         }
